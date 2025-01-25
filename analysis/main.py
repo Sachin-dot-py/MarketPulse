@@ -1,21 +1,22 @@
 import newspaper
 import os
-import json
+import csv
 
 # Persistent storage file for visited links
-VISITED_LINKS_FILE = "visited_links.json"
+VISITED_LINKS_FILE = "visited_links.csv"
 
 # Load visited links from file
 def load_visited_links():
     if os.path.exists(VISITED_LINKS_FILE):
         with open(VISITED_LINKS_FILE, "r") as file:
-            return set(json.load(file))
+            return set(row[0] for row in csv.reader(file))
     return set()
 
-# Save visited links to file
-def save_visited_links(visited_links):
-    with open(VISITED_LINKS_FILE, "w") as file:
-        json.dump(list(visited_links), file)
+# Save a single visited link to file
+def save_visited_link(link):
+    with open(VISITED_LINKS_FILE, "a", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow([link])
 
 # Analyze the article (placeholder for actual implementation)
 def analyze_article(title, text, publish_date, url, source_brand):
@@ -30,14 +31,15 @@ def process_articles(source, visited_links):
     for article in source.articles:
         if article.url in visited_links:
             continue
-        
+
         try:
             article.download()
             article.parse()
-            
-            # Add to visited links
+
+            # Add to visited links and save immediately
             visited_links.add(article.url)
-            
+            save_visited_link(article.url)
+
             # Call the analyze function
             analyze_article(
                 title=article.title,
@@ -65,6 +67,7 @@ def main():
     visited_links = load_visited_links()
     print("Starting news scraping...")
 
+    # Fetch overall news from each source
     for source_url in financial_news_sources:
         print(f"Processing source: {source_url}")
         try:
@@ -73,7 +76,6 @@ def main():
         except Exception as e:
             print(f"Failed to process source {source_url}: {e}")
 
-    save_visited_links(visited_links)
     print("News scraping complete.")
 
 if __name__ == "__main__":
