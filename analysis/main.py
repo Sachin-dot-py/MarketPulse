@@ -179,6 +179,7 @@ def process_ticker_news(ticker, visited_links, max_articles=8):
         except Exception as e:
             print(f"Failed to process article {article_url}: {e}")
 
+
 # List of financial news sources
 financial_news_sources = [
     'https://www.cnbc.com',                     # CNBC
