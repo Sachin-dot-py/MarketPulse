@@ -60,3 +60,68 @@ Commodity Price Changes
 Natural Disasters
 Cybersecurity Breaches
 Pandemic Announcements
+Acquisition Talks
+Joint Ventures
+Strategic Alliances
+Product Recalls
+Earnings Miss
+Earnings Beat
+Revenue Decline
+Revenue Growth
+Layoffs
+New Investments
+Debt Restructuring
+Asset Sales
+Patent Disputes
+Trademark Disputes
+Regulatory Fines
+Market Expansion
+Shareholder Activism
+Shareholder Meeting Updates
+IPO Filing
+SPAC Merger
+Product Delays
+FDA Approval
+FDA Rejection
+Environmental Fines
+Hedge Fund Activity
+Pension Fund Investments
+Buyout Offers
+Private Equity Deals
+Leveraged Buyouts
+Dividend Suspension
+Preferred Share Offerings
+Convertible Bond Offerings
+Moody's Outlook Updates
+S&P Rating Changes
+Bankruptcy Protection Filing
+Chapter 11 Filing
+Trade Tariffs
+Sanctions Easing
+International Trade Deals
+Recession Fears
+Economic Recovery
+Consumer Spending Trends
+Interest Rate Hikes
+Interest Rate Cuts
+Commodity Supply Shocks
+OPEC Announcements
+Oil Supply Cuts
+Oil Supply Increases
+Gold Reserve Updates
+Cryptocurrency Regulations
+Blockchain Partnerships
+Data Breaches
+Data Breach
+Hacking Incidents
+Cloud Revenue Growth
+Semiconductor Shortages
+Production Increases
+CEO Resignations
+CFO Resignations
+Scandal
+Whistleblower
+Strikes
+Factory Shutdowns
+IPO Withdrawals
+SPAC Failures
