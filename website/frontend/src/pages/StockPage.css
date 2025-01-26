@@ -1,0 +1,125 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    color: #1f2937; /* Dark gray */
+}
+
+/* Header */
+header {
+    background-color: #1f2937; /* Dark gray */
+    color: white;
+    padding: 24px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Main Content */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+/* News Grid */
+.grid {
+    display: grid;
+    gap: 24px; /* Spacing between cards */
+}
+
+.grid-cols-1 {
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+    .grid-cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid-cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* News Cards */
+.bg-white {
+    background-color: white;
+}
+
+.border {
+    border: 1px solid #e5e7eb;
+}
+
+.rounded {
+    border-radius: 12px;
+}
+
+.shadow-lg {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.p-4 {
+    padding: 24px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-gray-800 {
+    color: #1f2937; /* Dark gray */
+}
+
+.text-gray-600 {
+    color: #4b5563; /* Medium gray */
+}
+
+/* Percentage Box */
+.percentage-box {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem; /* Slightly larger font */
+    font-weight: bold;
+    border-radius: 8px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.bg-green-100 {
+    background-color: #d1fae5; /* Light green */
+}
+
+.bg-red-100 {
+    background-color: #fee2e2; /* Light red */
+}
+
+.text-green-600 {
+    color: #059669; /* Dark green */
+}
+
+.text-red-600 {
+    color: #dc2626; /* Dark red */
+}
+
+/* Flexbox Spacing */
+.flex {
+    display: flex;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.space-x-4 > * + * {
+    margin-left: 16px; /* Space between percentage boxes */
+}
+
+.mt-4 {
+    margin-top: 16px;
+}
