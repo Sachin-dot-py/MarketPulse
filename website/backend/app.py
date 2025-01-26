@@ -102,7 +102,7 @@ def autocomplete_stocks():
 def get_events():
     data = []
     # Read the CSV file
-    df = pd.read_csv("../analysis/predictions.csv")
+    df = pd.read_csv("../../analysis/analysis.csv")
 
     # Convert comma-separated strings back to lists
     df['tickers'] = df['tickers'].apply(lambda x: x.split(","))
@@ -110,7 +110,8 @@ def get_events():
 
     
     # Generate summaries and price change mappings
-    df['summary'] = df.apply(lambda row: summarise_news(row['headline'], row['text']), axis=1)
+    # df['summary'] = df.apply(lambda row: summarise_news(row['headline'], row['text']), axis=1)
+    df['summary'] = df['text']
     df['pricechanges'] = df.apply(lambda row: dict(zip(row['tickers'], row['percentpricechanges'])), axis=1)
 
     # Select required columns for the final output
@@ -153,7 +154,7 @@ def get_stock_data_route():
 
     # Fetch related news articles
     related_news = []
-    with open('../analysis/predictions.csv', 'r') as file:
+    with open('../../analysis/analysis.csv', 'r') as file:
         csv_reader = csv.DictReader(file)
         for row in csv_reader:
             tickers = row['tickers'].split(',')

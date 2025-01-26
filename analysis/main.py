@@ -6,6 +6,7 @@ import csv
 from datetime import datetime, timedelta
 from functools import cache
 import pandas as pd
+from MasterLogic import master_input
 
 # Persistent storage file for visited links
 VISITED_LINKS_FILE = "visited_links.csv"
@@ -26,7 +27,7 @@ def save_visited_link(link):
 # Analyze the article (placeholder for actual implementation)
 def analyze_article(title, text, publish_date, url, source_brand):
     # If CSV file is empty, add headers
-    if os.stat('news.csv').st_size == 0:
+    if not os.path.exists("news.csv") or os.stat('news.csv').st_size == 0:
         with open('news.csv', 'a') as f:
             writer = csv.writer(f)
             writer.writerow(["title", "text", "publish_date", "url", "source_brand"])
@@ -39,7 +40,10 @@ def analyze_article(title, text, publish_date, url, source_brand):
     # When we have 20 articles, call the run_model function
     df = pd.read_csv('news.csv')
     if len(df) >= 20:
-        # run_model()
+        predictions = master_input(df)
+        current = pd.read_csv('analysis.csv')
+        merged = pd.concat([current, predictions], ignore_index=True)
+        merged.to_csv('analysis.csv', index=False)
         # Clear the file
         open('news.csv', 'w').close()
 
@@ -195,19 +199,20 @@ def process_ticker_news(ticker, visited_links, max_articles=8):
 
 # List of financial news sources
 financial_news_sources = [
-    'https://www.cnbc.com',                     # CNBC
-    'https://www.reuters.com/finance',         # Reuters
-    'https://www.bloomberg.com',               # Bloomberg
-    'https://www.marketwatch.com',             # MarketWatch
-    'https://www.ft.com/',                     # Financial Times
-    'https://www.investing.com/',              # Investing.com
-    'https://www.forbes.com/finance/',         # Forbes - Finance Section
+    # 'https://www.cnbc.com',                     # CNBC
+    # 'https://www.reuters.com/finance',         # Reuters
+    # 'https://www.bloomberg.com',               # Bloomberg
+    # 'https://www.marketwatch.com',             # MarketWatch
+    # 'https://www.ft.com/',                     # Financial Times
+    # 'https://www.investing.com/',              # Investing.com
+    # 'https://www.forbes.com/finance/',         # Forbes - Finance Section
     'https://www.theguardian.com/business',     # The Guardian - Business Section
 ]
 
-stock_tickers = [
-    "AAPL", "GOOGL", "AMZN", "MSFT", "TSLA", "JPM", "JNJ", "V", "WMT"
-]
+stocks_data = pd.read_csv("stocks.csv", header=None)  # Assuming the file has no headers
+
+# Extract tickers from the second column
+stock_tickers = stocks_data.iloc[:, 1].dropna().astype(str).unique()
 
 def main():
     # Adjust the target date as needed (e.g., two days ago)

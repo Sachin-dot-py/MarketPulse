@@ -2,3 +2,11 @@ yfinance
 pandas
 newspaper3k
 lxml_html_clean
+numpy
+pandas
+scikit-learn
+spacy
+yfinance
+transformers
+joblib
+openpyxl
