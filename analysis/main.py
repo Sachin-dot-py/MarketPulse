@@ -199,13 +199,13 @@ def process_ticker_news(ticker, visited_links, max_articles=8):
 
 # List of financial news sources
 financial_news_sources = [
-    # 'https://www.cnbc.com',                     # CNBC
-    # 'https://www.reuters.com/finance',         # Reuters
-    # 'https://www.bloomberg.com',               # Bloomberg
-    # 'https://www.marketwatch.com',             # MarketWatch
-    # 'https://www.ft.com/',                     # Financial Times
-    # 'https://www.investing.com/',              # Investing.com
-    # 'https://www.forbes.com/finance/',         # Forbes - Finance Section
+    'https://www.cnbc.com',                     # CNBC
+    'https://www.reuters.com/finance',         # Reuters
+    'https://www.bloomberg.com',               # Bloomberg
+    'https://www.marketwatch.com',             # MarketWatch
+    'https://www.ft.com/',                     # Financial Times
+    'https://www.investing.com/',              # Investing.com
+    'https://www.forbes.com/finance/',         # Forbes - Finance Section
     'https://www.theguardian.com/business',     # The Guardian - Business Section
 ]
 
