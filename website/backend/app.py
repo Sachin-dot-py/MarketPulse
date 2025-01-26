@@ -102,7 +102,7 @@ def autocomplete_stocks():
 def get_events():
     data = []
     # Read the CSV file
-    df = pd.read_csv("analysis.csv")
+    df = pd.read_csv("../analysis/predictions.csv")
 
     # Convert comma-separated strings back to lists
     df['tickers'] = df['tickers'].apply(lambda x: x.split(","))
@@ -153,7 +153,7 @@ def get_stock_data_route():
 
     # Fetch related news articles
     related_news = []
-    with open('analysis.csv', 'r') as file:
+    with open('../analysis/predictions.csv', 'r') as file:
         csv_reader = csv.DictReader(file)
         for row in csv_reader:
             tickers = row['tickers'].split(',')
