@@ -1,7 +1,7 @@
 /* General Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
+    background-color: #f9fafb; /* Slightly lighter background */
     margin: 0;
     padding: 0;
     color: #1f2937; /* Dark gray */
@@ -22,7 +22,53 @@ main {
     padding: 16px;
 }
 
-/* News Grid */
+/* Stock Data Section */
+.stock-data-section {
+    margin-bottom: 60px; /* Add spacing below the Stock Data section */
+}
+
+.stock-data {
+    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 24px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    text-align: center;
+}
+
+.stock-data-item {
+    flex: 1 1 200px;
+    margin: 8px;
+    padding: 12px;
+    background-color: #f3f4f6; /* Light gray background for sections */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.stock-data-item p {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #4b5563; /* Medium gray */
+}
+
+.stock-data-item span {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #507ceb; /* Professional blue */
+}
+
+/* News Section */
+.news-analysis-section {
+    margin-top: 100px; /* Add spacing above the News Analysis section */
+    margin-bottom: 100px;
+}
+
 .grid {
     display: grid;
     gap: 24px; /* Spacing between cards */
@@ -44,37 +90,29 @@ main {
     }
 }
 
-/* News Cards */
-.bg-white {
+.card {
+    margin-top: 10px;
     background-color: white;
-}
-
-.border {
     border: 1px solid #e5e7eb;
-}
-
-.rounded {
     border-radius: 12px;
-}
-
-.shadow-lg {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.p-4 {
     padding: 24px;
-}
-
-.text-center {
     text-align: center;
 }
 
-.text-gray-800 {
-    color: #1f2937; /* Dark gray */
-}
-
-.text-gray-600 {
-    color: #4b5563; /* Medium gray */
+/* Prediction Label */
+.prediction-label {
+    display: block;
+    background-color: #dbeafe; /* Light blue */
+    color: #1d4ed8; /* Stronger blue for contrast */
+    font-size: 0.75rem; /* Small professional font size */
+    font-weight: 600; /* Semi-bold text */
+    text-transform: uppercase; /* Uppercase styling */
+    padding: 4px 8px;
+    border-radius: 9999px; /* Full-rounded edges */
+    margin: 0 auto 8px;
+    text-align: center;
+    width: fit-content; /* Dynamic width */
 }
 
 /* Percentage Box */
@@ -84,27 +122,20 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.25rem; /* Slightly larger font */
+    font-size: 1.25rem; /* Larger font */
     font-weight: bold;
     border-radius: 8px;
     text-align: center;
     margin: 0 auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.bg-green-100 {
-    background-color: #d1fae5; /* Light green */
+.bg-blue-100 {
+    background-color: #dbeafe; /* Light blue */
 }
 
-.bg-red-100 {
-    background-color: #fee2e2; /* Light red */
-}
-
-.text-green-600 {
-    color: #059669; /* Dark green */
-}
-
-.text-red-600 {
-    color: #dc2626; /* Dark red */
+.text-blue-600 {
+    color: #7ea0ea; /* Medium blue */
 }
 
 /* Flexbox Spacing */

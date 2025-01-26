@@ -12,15 +12,15 @@ const StockPage = () => {
 
     function formatNumber(number) {
         if (number >= 1e12) {
-          return `${(number / 1e12).toFixed(1)} Trillion`;
+            return `${(number / 1e12).toFixed(1)} Trillion`;
         } else if (number >= 1e9) {
-          return `${(number / 1e9).toFixed(1)} Billion`;
+            return `${(number / 1e9).toFixed(1)} Billion`;
         } else if (number >= 1e6) {
-          return `${(number / 1e6).toFixed(1)} Million`;
+            return `${(number / 1e6).toFixed(1)} Million`;
         } else {
-          return number.toString();
+            return number.toString();
         }
-      }
+    }
 
     useEffect(() => {
         const fetchStockData = async () => {
@@ -66,37 +66,32 @@ const StockPage = () => {
                                 Stock Data
                             </h2>
                             {stockData ? (
-                                <div className="bg-white border border-gray-200 rounded shadow-lg p-6 text-center">
-                                    <p className="text-lg font-medium text-gray-800">
-                                        Current Price:{" "}
-                                        <span className="font-bold text-green-600">
+                                <div className="stock-data">
+                                    <div className="stock-data-item">
+                                        <p>Current Price</p>
+                                        <span className="text-green-600">
                                             ${stockData["Current Price"]}
                                         </span>
-                                    </p>
-                                    <p className="text-lg font-medium text-gray-800">
-                                        Market Cap:{" "}
-                                        <span className="font-bold text-blue-600">
-                                            {formatNumber(stockData["Market Cap"])}
+                                    </div>
+                                    <div className="stock-data-item">
+                                        <p>Market Cap</p>
+                                        <span className="text-blue-600">
+                                            ${formatNumber(stockData["Market Cap"])}
                                         </span>
-                                    </p>
-                                    <p className="text-lg font-medium text-gray-800">
-                                        52 Week Range:{" "}
-                                        <span className="font-bold text-gray-600">
-                                            ${stockData["52 Week Range"]}
-                                        </span>
-                                    </p>
-                                    <p className="text-lg font-medium text-gray-800">
-                                        Volume:{" "}
-                                        <span className="font-bold text-gray-600">
-                                            {formatNumber(stockData["Volume"])}
-                                        </span>
-                                    </p>
+                                    </div>
+                                    <div className="stock-data-item">
+                                        <p>52 Week Range</p>
+                                        <span>${stockData["52 Week Range"]}</span>
+                                    </div>
+                                    <div className="stock-data-item">
+                                        <p>Volume</p>
+                                        <span>{formatNumber(stockData["Volume"])}</span>
+                                    </div>
                                 </div>
                             ) : (
                                 <p className="text-center text-gray-500">No data available</p>
                             )}
                         </section>
-                        <br /><br />
                         <section>
                             <h2 className="text-2xl font-semibold mb-6 text-gray-700 text-center">
                                 News Analysis for {stockData["Company"]} ({ticker})
@@ -105,12 +100,13 @@ const StockPage = () => {
                                 {relatedNews.map((news, index) => (
                                     <div
                                         key={index}
-                                        className="bg-white border border-gray-200 rounded shadow-lg p-4 text-center"
+                                        className="card"
                                     >
                                         <h3 className="text-lg font-bold text-gray-800 mb-4">
                                             {news.headline}
                                         </h3>
                                         <p className="text-sm text-gray-600 mb-4">{news.summary}</p>
+                                        <div className="prediction-label">Prediction</div>
                                         <div
                                             className={`percentage-box ${getPriceChangeStyle(
                                                 news.price_change
