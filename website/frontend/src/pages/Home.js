@@ -45,7 +45,7 @@ export default function Home() {
                     <h1 className="text-3xl font-bold">MarketPulse</h1>
                 </div>
             </header>
-
+    
             <main className="max-w-6xl mx-auto">
                 <section className="text-center mb-12">
                     <StockSearch />
@@ -53,7 +53,7 @@ export default function Home() {
                 <br /><br />
                 <section>
                     <h2 className="text-2xl font-semibold mb-6 text-gray-700 text-center">News Summary</h2>
-
+    
                     {loading ? (
                         <p className="text-center text-gray-500">Loading events...</p>
                     ) : (
@@ -61,18 +61,21 @@ export default function Home() {
                             {events.map((event, index) => (
                                 <div
                                     key={index}
-                                    className="bg-white border border-gray-200 rounded shadow-lg p-4 text-center"
+                                    className="card"
                                 >
                                     <h3 className="text-lg font-bold text-gray-800 mb-4">
                                         {event.headline}
                                     </h3>
                                     <p className="text-sm text-gray-600 mb-4">{event.summary}</p>
-                                    <div className="grid grid-cols-1 gap-2 mb-4">
+                                    <div className="ticker-container">
                                         {Object.entries(event.pricechanges).map(([ticker, change]) => (
                                             <div
                                                 key={ticker}
-                                                className={`p-2 rounded shadow-sm ${getStockStyle(change)}`}
+                                                className={`ticker ${
+                                                    change > 0 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
+                                                }`}
                                             >
+                                                <div className="prediction-label">Prediction</div>
                                                 <Link
                                                     to={`/stock/${ticker}`}
                                                     className="text-sm font-medium"
@@ -89,5 +92,5 @@ export default function Home() {
                 </section>
             </main>
         </div>
-    );
+    );    
 }
