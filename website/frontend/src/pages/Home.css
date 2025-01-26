@@ -100,17 +100,35 @@ h2 {
 
 .card h3 {
     color: #1f2937; /* Dark gray */
-    font-size: 1.25rem; /* Adjusted font size */
+    font-size: 1.5rem; /* Increased font size for better emphasis */
+    font-weight: 700; /* Make the title bold */
     margin-bottom: 12px;
 }
 
 .card p {
     color: #4b5563; /* Medium gray */
-    font-size: 0.875rem; /* Slightly smaller font */
+    font-size: 1rem; /* Increased font size for summary */
     margin-bottom: 16px;
 }
 
 /* Stock Grid */
+.ticker-container {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap; /* Adjust layout if there are too many tickers */
+}
+
+.ticker {
+    display: inline-block;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
 .bg-green-100 {
     background-color: #d1fae5; /* Light green */
 }
@@ -130,3 +148,19 @@ h2 {
 .shadow-sm {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
+
+.prediction-label {
+    display: block; /* Ensure it takes the full width of its parent */
+    background-color: #e0f2fe; /* Light blue */
+    color: #0284c7; /* Darker blue for text */
+    font-size: 0.75rem; /* Small, professional font size */
+    font-weight: 600; /* Semi-bold text */
+    text-transform: uppercase; /* Modern uppercase styling */
+    padding: 2px 8px; /* Padding for badge-like appearance */
+    border-radius: 9999px; /* Full-rounded edges for sleek look */
+    margin: 0 auto 4px; /* Center align and add spacing below */
+    text-align: center; /* Center the text within the label */
+    width: fit-content; /* Ensure it only takes as much space as its content */
+}
+
+
