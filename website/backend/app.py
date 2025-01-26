@@ -8,7 +8,8 @@ from dotenv import load_dotenv
 from flask_cors import CORS
 import datetime
 import pandas as pd
-import boto3
+from anthropic import AnthropicBedrock
+import csv
 
 
 load_dotenv()
@@ -16,12 +17,15 @@ app = Flask(__name__)
 CORS(app)
 stocks_data = pd.read_csv('stocks.csv')
 
-
-# Initialize Bedrock client
-client = boto3.client('bedrock', region_name=os.environ['AWS_DEFAULT_REGION'])
+client = AnthropicBedrock(
+    aws_access_key=os.getenv("AWS_ACCESS_KEY_ID"),
+    aws_secret_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
+    aws_session_token=os.getenv("AWS_SESSION_TOKEN"),  # Optional if using temporary credentials
+    aws_region=os.getenv("AWS_DEFAULT_REGION", "us-west-2"),  # Default to "us-west-2" if not set
+)
 
 # Define the model to use (e.g., Amazon Titan)
-model_name = "anthropic.claude-3-5-sonnet-20241022-v2:0"
+model_name = "anthropic.claude-3-5-haiku-20241022-v1:0"
 
 def summarise_news(headline, full_text):
 
@@ -59,17 +63,14 @@ def summarise_news(headline, full_text):
     Output:
     """
 
-    # Call the Bedrock API
-    response = client.invoke_model(
-        modelId=model_name,
-        inputText=prompt,
-        contentType="text/plain",
-        accept="text/plain"
+    message = client.messages.create(
+        model=model_name,
+        max_tokens=256,
+        messages=[{"role": "user", "content": prompt}]
     )
 
-    # Parse the response
-    summary = response['body'].read().decode('utf-8')
-    return summary
+    # Extract and return the summary from the response
+    return message.content[0].text
 
 
 # For CORS
@@ -96,6 +97,29 @@ def autocomplete_stocks():
     # Prepare the response
     results = filtered.head(5).to_dict(orient='records')  # Limit results to 5
     return jsonify(results)
+
+@app.route('/api/get_events', methods=['GET'])
+def get_events():
+    data = []
+    # Read the CSV file
+    df = pd.read_csv("analysis.csv")
+
+    # Convert comma-separated strings back to lists
+    df['tickers'] = df['tickers'].apply(lambda x: x.split(","))
+    df['percentpricechanges'] = df['percentpricechanges'].apply(lambda x: list(map(float, x.split(","))))
+
+    
+    # Generate summaries and price change mappings
+    df['summary'] = df.apply(lambda row: summarise_news(row['headline'], row['text']), axis=1)
+    df['pricechanges'] = df.apply(lambda row: dict(zip(row['tickers'], row['percentpricechanges'])), axis=1)
+
+    # Select required columns for the final output
+    processed_data = df[['headline', 'summary', 'pricechanges']]
+    # Convert the DataFrame to a list of dictionaries (if needed)
+    data = processed_data.to_dict(orient='records')
+    
+    # Return JSON response
+    return jsonify(data), 200
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
