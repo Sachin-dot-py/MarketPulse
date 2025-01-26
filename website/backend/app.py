@@ -127,7 +127,7 @@ def get_stock_data(ticker):
     try:
         stock = yf.Ticker(ticker)
         info = stock.info
-
+        company = info.get("longName", "N/A")
         current_price = info.get("currentPrice", "N/A")
         market_cap = info.get("marketCap", "N/A")
         year_range = f"{info.get('fiftyTwoWeekLow', 'N/A')} - {info.get('fiftyTwoWeekHigh', 'N/A')}"
@@ -137,7 +137,8 @@ def get_stock_data(ticker):
             "Current Price": current_price,
             "Market Cap": market_cap,
             "52 Week Range": year_range,
-            "Volume": volume
+            "Volume": volume,
+            "Company": company
         }
     except Exception as e:
         return {"error": str(e)}

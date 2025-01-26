@@ -1,9 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./StockPage.css";
 
 const StockPage = () => {
     const { ticker } = useParams();
+    const [stockData, setStockData] = useState(null);
+    const [relatedNews, setRelatedNews] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
+    function formatNumber(number) {
+        if (number >= 1e12) {
+          return `${(number / 1e12).toFixed(1)} Trillion`;
+        } else if (number >= 1e9) {
+          return `${(number / 1e9).toFixed(1)} Billion`;
+        } else if (number >= 1e6) {
+          return `${(number / 1e6).toFixed(1)} Million`;
+        } else {
+          return number.toString();
+        }
+      }
+
+    useEffect(() => {
+        const fetchStockData = async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/get_stock_data?ticker=${ticker}`);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch stock data");
+                }
+                const data = await response.json();
+                setStockData(data.stock_data);
+                setRelatedNews(data.related_news);
+            } catch (error) {
+                console.error("Error fetching stock data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchStockData();
+    }, [ticker]);
+
+    const getPriceChangeStyle = (change) => {
+        if (change > 0) return "bg-green-100 text-green-600";
+        if (change < 0) return "bg-red-100 text-red-600";
+        return "bg-gray-100 text-gray-600";
+    };
 
     return (
         <div className="p-6 bg-gray-50 min-h-screen">
@@ -14,55 +57,74 @@ const StockPage = () => {
             </header>
 
             <main className="max-w-6xl mx-auto">
-                <h2 className="text-2xl font-semibold mb-6 text-gray-700 text-center">
-                    News Articles for {ticker}
-                </h2>
-
-                {/* News Articles Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {/* Example News Card */}
-                    <div className="bg-white border border-gray-200 rounded shadow-lg p-4 text-center">
-                        <h3 className="text-lg font-bold text-gray-800 mb-4">News Title 1</h3>
-                        <p className="text-sm text-gray-600 mb-4">
-                            A brief summary of the news article goes here...
-                        </p>
-                        <div className="flex items-center justify-between mt-4">
-                            <div className="percentage-box bg-green-100 border border-green-600 text-green-600 font-bold">
-                                70%
+                {loading ? (
+                    <p className="text-center text-gray-500">Loading...</p>
+                ) : (
+                    <>
+                        <section className="mb-12">
+                            <h2 className="text-2xl font-semibold mb-6 text-gray-700 text-center">
+                                Stock Data
+                            </h2>
+                            {stockData ? (
+                                <div className="bg-white border border-gray-200 rounded shadow-lg p-6 text-center">
+                                    <p className="text-lg font-medium text-gray-800">
+                                        Current Price:{" "}
+                                        <span className="font-bold text-green-600">
+                                            ${stockData["Current Price"]}
+                                        </span>
+                                    </p>
+                                    <p className="text-lg font-medium text-gray-800">
+                                        Market Cap:{" "}
+                                        <span className="font-bold text-blue-600">
+                                            {formatNumber(stockData["Market Cap"])}
+                                        </span>
+                                    </p>
+                                    <p className="text-lg font-medium text-gray-800">
+                                        52 Week Range:{" "}
+                                        <span className="font-bold text-gray-600">
+                                            ${stockData["52 Week Range"]}
+                                        </span>
+                                    </p>
+                                    <p className="text-lg font-medium text-gray-800">
+                                        Volume:{" "}
+                                        <span className="font-bold text-gray-600">
+                                            {formatNumber(stockData["Volume"])}
+                                        </span>
+                                    </p>
+                                </div>
+                            ) : (
+                                <p className="text-center text-gray-500">No data available</p>
+                            )}
+                        </section>
+                        <br /><br />
+                        <section>
+                            <h2 className="text-2xl font-semibold mb-6 text-gray-700 text-center">
+                                News Analysis for {stockData["Company"]} ({ticker})
+                            </h2>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {relatedNews.map((news, index) => (
+                                    <div
+                                        key={index}
+                                        className="bg-white border border-gray-200 rounded shadow-lg p-4 text-center"
+                                    >
+                                        <h3 className="text-lg font-bold text-gray-800 mb-4">
+                                            {news.headline}
+                                        </h3>
+                                        <p className="text-sm text-gray-600 mb-4">{news.summary}</p>
+                                        <div
+                                            className={`percentage-box ${getPriceChangeStyle(
+                                                news.price_change
+                                            )} border font-bold`}
+                                        >
+                                            {news.price_change > 0 ? "+" : ""}
+                                            {news.price_change}%
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-white border border-gray-200 rounded shadow-lg p-4 text-center">
-                        <h3 className="text-lg font-bold text-gray-800 mb-4">News Title 2</h3>
-                        <p className="text-sm text-gray-600 mb-4">
-                            Another summary of a news article...
-                        </p>
-                        <div className="flex items-center justify-between mt-4">
-                            <div className="percentage-box bg-green-100 border border-green-600 text-green-600 font-bold">
-                                40%
-                            </div>
-                            <div className="percentage-box bg-red-100 border border-red-600 text-red-600 font-bold">
-                                60%
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-white border border-gray-200 rounded shadow-lg p-4 text-center">
-                        <h3 className="text-lg font-bold text-gray-800 mb-4">News Title 3</h3>
-                        <p className="text-sm text-gray-600 mb-4">
-                            A brief summary of the news article goes here...
-                        </p>
-                        <div className="flex items-center justify-between mt-4">
-                            <div className="percentage-box bg-green-100 border border-green-600 text-green-600 font-bold">
-                                80%
-                            </div>
-                            <div className="percentage-box bg-red-100 border border-red-600 text-red-600 font-bold">
-                                20%
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        </section>
+                    </>
+                )}
             </main>
         </div>
     );
