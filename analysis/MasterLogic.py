@@ -59,27 +59,24 @@ def master_input(master_input_df):
             return None
 
     company_names = firms
-    # Preprocess company names to extract core names
     def preprocess_company_names(company_names):
         processed_names = []
         for name in company_names:
-            # Remove common suffixes like "Inc.", "Corporation", etc.
+        
             core_name = name.replace("Inc.", "").replace('Holdings', '').replace('Corp.', '').replace('Solutions','').replace('Services','').replace("Corporation", "").replace(",", "").replace("PLC", "").replace("Ltd.", "").replace('Platforms', '').replace('News','').replace('Institution','').replace('research','').replace('Replace','').replace('news','').strip()
             processed_names.append(core_name)
         try:
-            return list(set(processed_names))  # Remove duplicates
+            return list(set(processed_names))
         except:
             return None
     core_company_names = preprocess_company_names(company_names)
 
-    # Initialize PhraseMatcher
     matcher = PhraseMatcher(nlp.vocab, attr="LOWER")
 
-    # Add company names as patterns
+
     patterns = list(nlp.pipe(core_company_names))
     matcher.add("COMPANY", patterns)
 
-    # Define the custom NER component
     @Language.component("company_ner_component")
     def company_ner_component(doc):
         matches = matcher(doc)
@@ -88,11 +85,10 @@ def master_input(master_input_df):
             span = Span(doc, start, end, label="COMPANY")
             spans.append(span)
 
-        # Filter spans to avoid duplicates or overlaps
+     
         doc.ents = spacy.util.filter_spans(spans)
         return doc
 
-    # Add the custom component to the pipeline
     nlp.add_pipe("company_ner_component", last=True)
 
     def find_companies(text):
@@ -134,43 +130,23 @@ def master_input(master_input_df):
     import pandas as pd
 
     def round_down_datetime(dt, period_minutes=60):
-        """
-        Rounds down a datetime object to the previous period.
-        If dt is not a datetime object, it converts it to datetime first.
-        
-        Args:
-            dt (datetime or str): The datetime object or a string in the format 'YYYY-MM-DD HH:MM:SS'.
-            period_minutes (int): The period in minutes to round down to (default is 60 minutes).
-        
-        Returns:
-            datetime: The rounded-down datetime object.
-        """
-        # If dt is not a datetime object, convert it
+       
         if not isinstance(dt, datetime):
             try:
                 dt = datetime.strptime(dt, "%Y-%m-%d %H:%M:%S")
             except:
                 dt = datetime.now()
 
-        # Calculate rounding
+     
         period_seconds = period_minutes * 60
         seconds_since_midnight = (dt - datetime.combine(dt.date(), datetime.min.time())).total_seconds()
         rounded_seconds = (seconds_since_midnight // period_seconds) * period_seconds
 
-        # Return the rounded datetime
         return dt.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(seconds=rounded_seconds)
 
 
     def calculate_cumulative_sum(df, up_to_time):
-        """
-        Calculate the cumulative daily sum of numerical columns in a DataFrame up to a certain time.
-        Args:
-            df (pd.DataFrame): The input DataFrame with a DatetimeIndex and numerical columns.
-            up_to_time (str): The time (e.g., "15:00:00") up to which the cumulative sum should be calculated.
-        Returns:
-            pd.DataFrame: A DataFrame with the cumulative daily sums up to the specified time.
-        """
-        # Ensure the index is a DatetimeIndex
+      
         if not isinstance(df.index, pd.DatetimeIndex):
             raise ValueError("The DataFrame index must be a DatetimeIndex.")
         filtered_df = df.between_time("00:00", up_to_time)
@@ -182,70 +158,41 @@ def master_input(master_input_df):
 
     @cache
     def download_data_from_datetime(ticker, start_datetime=None, end_datetime=None, interval="60m"):
-        """
-        Downloads stock data for a specific ticker. Handles missing start_datetime and end_datetime gracefully.
-        Args:
-            ticker (str): Stock ticker symbol (e.g., "AAPL").
-            start_datetime (str, optional): Start date in the format "YYYY-MM-DD". Default is None.
-            end_datetime (int, optional): Number of days after the start date to end the data collection. Default is None.
-            interval (str): Data interval (e.g., "1d", "1h", "15m"). Default is "15m".
-        Returns:
-            pd.DataFrame: A DataFrame containing the downloaded stock data.
-        Raises:
-            ValueError: If only one of start_datetime or end_datetime is provided.
-        """
-        # Handle default case: 31 days up until today
+    
         if start_datetime is None and end_datetime is None:
             end_dt = round_down_datetime(datetime.now(),period_minutes=60)
             start_dt = end_dt - timedelta(days=31)
         elif start_datetime is not None and end_datetime is not None:
-            # Both start_datetime and end_datetime provided, calculate end_date
+
             end_dt = end_datetime
             start_dt = start_datetime
             pass
         else:
-            # If only one of start_datetime or end_datetime is provided, raise an error
+
             raise ValueError("You must provide both start_datetime and end_datetime, or neither.")
-        # Download data using yfinance
+     
         df = yf.download(ticker, start=start_dt, end=end_dt, interval=interval)
         return df
 
     def ticker_vol_price_df(ticker, days_before=31, end_datetime=None):
-        """
-        Calculate cumulative volume and price data for a stock ticker,
-        using a relative start time (days_before) and an optional end_datetime.
-        Args:
-            ticker (str): Stock ticker symbol (e.g., "AAPL").
-            days_before (int, optional): Number of days before the end_datetime to start the data collection. Default is 31.
-            end_datetime (datetime, optional): End datetime for the data collection. Defaults to the current time.
-        Returns:
-            pd.DataFrame: A DataFrame containing cumulative volume and price data for the specified ticker.
-        """
-        # Default end_datetime to current time if not provided
         if end_datetime is None:
             end_datetime = datetime.now()
 
         try:
-            # Round down end_datetime to the nearest hour
             rounded_down_dt = round_down_datetime(end_datetime)
             print(rounded_down_dt)
 
-            # Calculate the start_datetime based on days_before
             start_datetime_obj = rounded_down_dt - timedelta(days=days_before)
             start_datetime = start_datetime_obj
             end_datetime = rounded_down_dt
 
-            # Download data using the helper function
             df = download_data_from_datetime(ticker, start_datetime=start_datetime, end_datetime=end_datetime, interval="60m")
-            # Calculate cumulative sums up to the rounded-down end time
             cumulative_sum_df = calculate_cumulative_sum(df, up_to_time=end_datetime.time())
-            # Get the last row of cumulative data for each day
             ticker_price_df = cumulative_sum_df.groupby(cumulative_sum_df.index.date).tail(1)
             return ticker_price_df
         except:
             return None
 
-    #Implementation for Volume Comparison
     def give_vol(lst):
         if (isinstance(lst[0], str) == False):
             return None
