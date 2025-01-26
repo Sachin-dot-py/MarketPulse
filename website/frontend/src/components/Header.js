@@ -9,7 +9,7 @@ function Header() {
             <Navbar.Brand href="/" className="d-flex align-items-center">
                 <img
                     src={`${process.env.PUBLIC_URL}/logo.png`}
-                    alt="Grocify Logo"
+                    alt="MarketPulse Logo"
                     width="30"
                     height="30"
                     className="d-inline-block align-top"

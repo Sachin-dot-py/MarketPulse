@@ -1,72 +1,101 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import './Home.css'
 
 export default function Home() {
-    const [activeTab, setActiveTab] = useState('Last Day'); // Manage active tab state
-
-    const handleTabClick = (tab) => {
-        setActiveTab(tab);
-        // Add logic to fetch relevant data for the selected time range
-    };
-
     return (
-        <div className="p-6">
-            <header className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl font-bold">MarketPulse</h1>
-                <div className="w-1/3">
-                    <input
-                        type="text"
-                        placeholder="Search stocks..."
-                        className="border p-2 rounded w-full"
-                    />
+        <div className="p-6 bg-gray-50 min-h-screen">
+            <header className="bg-gray-800 text-white p-4 mb-6">
+                <div className="flex justify-between items-center max-w-6xl mx-auto">
+                    <h1 className="text-2xl font-bold">MarketPulse</h1>
+                    <div className="w-1/3">
+                        <input
+                            type="text"
+                            placeholder="Search stocks..."
+                            className="w-full p-2 rounded border border-gray-300"
+                        />
+                    </div>
                 </div>
             </header>
 
-            <section>
-                <h2 className="text-xl font-semibold mb-4">View News Summary</h2>
-                {/* Tabs Section */}
-                <div className="flex space-x-4 mb-4">
-                    {['Last Day', 'Last Week', 'Last Month'].map((tab) => (
-                        <button
-                            key={tab}
-                            className={`px-4 py-2 rounded ${
-                                activeTab === tab ? 'bg-black text-white' : 'bg-gray-200 text-black'
-                            }`}
-                            onClick={() => handleTabClick(tab)}
-                        >
-                            {tab}
-                        </button>
-                    ))}
-                </div>
+            <main className="max-w-6xl mx-auto">
+                <section>
+                    <h2 className="text-xl font-semibold mb-4 text-gray-700">News Summary</h2>
 
-                {/* Events Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {/* Sample Event Card */}
-                    <div className="border p-4 rounded shadow">
-                        <h3 className="text-lg font-bold">Event Title</h3>
-                        <p className="text-sm text-gray-600 mb-2">
-                            A brief description of the event...
-                        </p>
-                        <div className="grid grid-cols-2 gap-2">
-                            {/* Affected Stocks */}
-                            <div className="border p-2 rounded bg-gray-100">
-                                <Link to="/stock/1" className="text-blue-500 text-sm font-medium">
-                                    Stock A
-                                </Link>
+                    {/* Events Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {/* Sample Event Card */}
+                        <div className="bg-white border border-gray-200 rounded shadow-sm p-4">
+                            <h3 className="text-lg font-bold text-gray-800">Event Title 1</h3>
+                            <p className="text-sm text-gray-600 mb-4">
+                                A brief description of the event...
+                            </p>
+                            <div className="grid grid-cols-2 gap-2 mb-4">
+                                {/* Affected Stocks */}
+                                <div className="bg-gray-100 p-2 rounded text-center">
+                                    <Link to="/stock/1" className="text-blue-500 text-sm font-medium">
+                                        Stock A
+                                    </Link>
+                                </div>
+                                <div className="bg-gray-100 p-2 rounded text-center">
+                                    <Link to="/stock/2" className="text-blue-500 text-sm font-medium">
+                                        Stock B
+                                    </Link>
+                                </div>
                             </div>
-                            <div className="border p-2 rounded bg-gray-100">
-                                <Link to="/stock/2" className="text-blue-500 text-sm font-medium">
-                                    Stock B
-                                </Link>
-                            </div>
+                            <Link to="/event/1" className="text-blue-500 text-sm font-medium">
+                                View Details
+                            </Link>
                         </div>
-                        <Link to="/event/1" className="text-blue-500 text-sm mt-2 inline-block">
-                            View Details
-                        </Link>
+
+                        <div className="bg-white border border-gray-200 rounded shadow-sm p-4">
+                            <h3 className="text-lg font-bold text-gray-800">Event Title 2</h3>
+                            <p className="text-sm text-gray-600 mb-4">
+                                A brief description of the event...
+                            </p>
+                            <div className="grid grid-cols-2 gap-2 mb-4">
+                                {/* Affected Stocks */}
+                                <div className="bg-gray-100 p-2 rounded text-center">
+                                    <Link to="/stock/3" className="text-blue-500 text-sm font-medium">
+                                        Stock C
+                                    </Link>
+                                </div>
+                                <div className="bg-gray-100 p-2 rounded text-center">
+                                    <Link to="/stock/4" className="text-blue-500 text-sm font-medium">
+                                        Stock D
+                                    </Link>
+                                </div>
+                            </div>
+                            <Link to="/event/2" className="text-blue-500 text-sm font-medium">
+                                View Details
+                            </Link>
+                        </div>
+
+                        <div className="bg-white border border-gray-200 rounded shadow-sm p-4">
+                            <h3 className="text-lg font-bold text-gray-800">Event Title 3</h3>
+                            <p className="text-sm text-gray-600 mb-4">
+                                A brief description of the event...
+                            </p>
+                            <div className="grid grid-cols-2 gap-2 mb-4">
+                                {/* Affected Stocks */}
+                                <div className="bg-gray-100 p-2 rounded text-center">
+                                    <Link to="/stock/5" className="text-blue-500 text-sm font-medium">
+                                        Stock E
+                                    </Link>
+                                </div>
+                                <div className="bg-gray-100 p-2 rounded text-center">
+                                    <Link to="/stock/6" className="text-blue-500 text-sm font-medium">
+                                        Stock F
+                                    </Link>
+                                </div>
+                            </div>
+                            <Link to="/event/3" className="text-blue-500 text-sm font-medium">
+                                View Details
+                            </Link>
+                        </div>
                     </div>
-                    {/* Repeat Event Cards dynamically */}
-                </div>
-            </section>
+                </section>
+            </main>
         </div>
     );
 }
