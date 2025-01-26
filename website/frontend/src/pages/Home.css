@@ -4,37 +4,53 @@ body {
     background-color: #f8f9fa;
     margin: 0;
     padding: 0;
+    color: #1f2937; /* Dark gray */
 }
 
 h1, h2, h3 {
     margin: 0;
     padding: 0;
+    text-align: center;
 }
 
 a {
     text-decoration: none;
     color: inherit;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #2563eb; /* Darker blue */
 }
 
 /* Header */
 header {
     background-color: #1f2937; /* Dark gray */
     color: white;
-    padding: 16px;
-    margin-bottom: 24px;
+    padding: 24px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-header .flex {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* Search Section */
+.text-center {
+    text-align: center;
 }
 
-header input {
-    padding: 8px;
+input[type="text"] {
+    padding: 18px;
+    font-size: 1.2rem;
     border: 1px solid #d1d5db;
-    border-radius: 8px;
+    border-radius: 12px;
     width: 100%;
+    max-width: 800px; /* Wider input field */
+    margin: 0 auto;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: block;
+    background-color: white;
+}
+
+input[type="text"]::placeholder {
+    color: #9ca3af; /* Gray placeholder text */
 }
 
 /* Main Content */
@@ -47,13 +63,13 @@ main {
 h2 {
     color: #4b5563; /* Dark gray */
     font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
 }
 
-/* Event Grid */
+/* Grid Layout */
 .grid {
     display: grid;
-    gap: 24px;
+    gap: 24px; /* Reduced gap for compact look */
 }
 
 .grid-cols-1 {
@@ -61,75 +77,56 @@ h2 {
 }
 
 @media (min-width: 640px) {
-    .sm\\:grid-cols-2 {
+    .grid-cols-2 {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (min-width: 1024px) {
-    .lg\\:grid-cols-3 {
+    .grid-cols-3 {
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
-/* Event Card */
-.bg-white {
+/* Event Cards */
+.card {
     background-color: white;
-}
-
-.border {
     border: 1px solid #e5e7eb;
-}
-
-.rounded {
-    border-radius: 8px;
-}
-
-.shadow-sm {
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-}
-
-.p-4 {
-    padding: 16px;
-}
-
-.text-gray-800 {
-    color: #1f2937; /* Dark gray */
-}
-
-.text-gray-600 {
-    color: #4b5563; /* Medium gray */
-}
-
-.text-blue-500 {
-    color: #3b82f6; /* Blue */
-}
-
-.text-blue-500:hover {
-    color: #2563eb; /* Darker blue */
-}
-
-.bg-gray-100 {
-    background-color: #f3f4f6; /* Light gray */
-}
-
-.text-center {
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px; /* Reduced padding for smaller cards */
     text-align: center;
 }
 
-/* Spacing */
-.mb-4 {
+.card h3 {
+    color: #1f2937; /* Dark gray */
+    font-size: 1.25rem; /* Adjusted font size */
+    margin-bottom: 12px;
+}
+
+.card p {
+    color: #4b5563; /* Medium gray */
+    font-size: 0.875rem; /* Slightly smaller font */
     margin-bottom: 16px;
 }
 
-.mt-2 {
-    margin-top: 8px;
+/* Stock Grid */
+.bg-green-100 {
+    background-color: #d1fae5; /* Light green */
 }
 
-.gap-6 {
-    gap: 24px;
+.bg-red-100 {
+    background-color: #fee2e2; /* Light red */
 }
 
-.p-2 {
-    padding: 8px;
+.text-green-600 {
+    color: #059669; /* Dark green */
+}
+
+.text-red-600 {
+    color: #dc2626; /* Dark red */
+}
+
+.shadow-sm {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
