@@ -3,4 +3,4 @@ requests
 python-dotenv
 flask-cors
 pandas
-boto3
+anthropic
