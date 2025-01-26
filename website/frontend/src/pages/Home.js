@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import StockSearch from '../components/StockSearch';
 import './Home.css';
+
 export default function Home() {
     return (
         <div className="p-6 bg-gray-50 min-h-screen">
@@ -12,13 +14,7 @@ export default function Home() {
 
             <main className="max-w-6xl mx-auto">
                 <section className="text-center mb-12">
-                    <div className="w-full sm:w-3/4 lg:w-2/3 mx-auto">
-                        <input
-                            type="text"
-                            placeholder="Search stocks..."
-                            className="w-full p-6 text-xl rounded-lg border border-gray-300 shadow-md"
-                        />
-                    </div>
+                    <StockSearch />
                 </section>
 
                 <section>

@@ -1,0 +1,118 @@
+/* Wrapper styling for the search bar and button */
+form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 600px; /* Limit overall width */
+    margin: 0 auto; /* Center the search bar */
+}
+
+/* Styling for the search bar */
+input[type="text"] {
+    flex: 1; /* Allow the search bar to take available space */
+    font-size: 16px;
+    padding: 12px 16px;
+    border-radius: 8px 0 0 8px;
+    border: 1px solid #d1d5db;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+    outline: none;
+}
+
+/* Styling for the search button */
+button {
+    font-size: 18px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    background-color: #2563eb; /* Blue background */
+    color: #fff; /* White text */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, transform 0.2s;
+    transform: scale(1.165);
+}
+
+button:hover {
+    background-color: #1d4ed8; /* Darker blue on hover */
+}
+
+button:active {
+    transform: scale(1);
+}
+
+/* Autocomplete dropdown */
+ul {
+    list-style: none;
+    margin: 0; /* Remove margin to ensure it touches the search bar */
+    padding: 0;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Match the width of the parent container */
+    position: absolute; /* Place below the input */
+    top: 100%; /* Align directly below the search bar */
+    left: 0; /* Align with the search bar */
+    z-index: 10;
+}
+
+
+/* Wrapper styling to ensure positioning stays correct */
+.wrapper {
+    position: relative; /* Ensures dropdown aligns with input */
+    width: 100%; /* Matches the container width */
+    max-width: 600px; /* Limit overall width */
+    margin: 0 auto; /* Center the container */
+}
+
+/* Individual dropdown items */
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    font-size: 14px;
+    color: #374151;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+li:hover {
+    background-color: #bfdbfe; /* Light blue on hover */
+    color: #1e40af; /* Darker text color */
+}
+
+/* Styling for the ticker and name in suggestions */
+li span:first-child {
+    font-weight: 600; /* Bold for the ticker */
+}
+
+li span:last-child {
+    color: #6b7280; /* Lighter gray for the company name */
+    font-size: 13px;
+}
+
+/* Add smooth scrolling to dropdown */
+ul::-webkit-scrollbar {
+    width: 8px;
+}
+
+ul::-webkit-scrollbar-thumb {
+    background-color: #d1d5db; /* Light gray scrollbar */
+    border-radius: 4px;
+}
+
+ul::-webkit-scrollbar-thumb:hover {
+    background-color: #9ca3af; /* Darker gray on hover */
+}
