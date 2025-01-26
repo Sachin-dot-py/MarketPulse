@@ -9,6 +9,10 @@ MarketPulse is a real-time market sentiment and trend analysis web app designed 
 - Install all required python packages using `pip3 install -r requirements.txt`
 - Install all npm packages using `npm install`
 - Run the `main.py` in the `analysis` directory 
-- Simultanoeusly run the `app.py` in the `website/backend` directory
+- Simultaneously run the `app.py` in the `website/backend` directory
 - Simultaneously run the ReactJS server in the `website/frontend` directory
 - Access the web app at port 3000.
+
+# Demo Video
+
+Watch the demo video [here](https://www.youtube.com/watch?v=1uvV9bbxebk).
