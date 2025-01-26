@@ -3,7 +3,6 @@ from datetime import timedelta
 import os
 import requests
 import json
-# from openai import OpenAI
 from dotenv import load_dotenv
 from flask_cors import CORS
 import datetime
@@ -32,7 +31,7 @@ def summarise_news(headline, full_text):
 
     # Prepare the prompt
     prompt = f"""
-    You are an advanced financial text summarization AI. Your task is to generate a concise upto 3-line summary of the important financial content from a given article. Only include key points about the article’s financial context, metrics, or events. Return only the summary—no markdown, no explanations, preamble, or additional text. Follow the format of the examples below. Never include any personal opinions or editorial comments. 
+    You are an advanced financial text summarization AI. Your task is to generate a concise upto 3-line summary of the important financial content from a given article. Only include key points about the article's financial context, metrics, or events. Return only the summary—no markdown, no explanations, preamble, or additional text. Follow the format of the examples below. Never include any personal opinions or editorial comments. If there is not enough financial information to be summarised, you can provide a general brief upto 3-line summary of the article. 
 
     Examples:
 
