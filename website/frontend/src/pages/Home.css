@@ -1,0 +1,47 @@
+/* Tailwind Custom Classes (if needed for extended styles) */
+.tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .tab {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .tab.active {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .tab.inactive {
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  .card {
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    background: #fff;
+  }
+  
+  .card-title {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .card-content {
+    font-size: 0.875rem;
+    color: #555;
+  }
+  
+  .grid-layout {
+    display: grid;
+    gap: 1rem;
+  }
+  
