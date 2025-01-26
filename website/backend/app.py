@@ -10,6 +10,7 @@ import datetime
 import pandas as pd
 from anthropic import AnthropicBedrock
 import csv
+import yfinance as yf
 
 
 load_dotenv()
@@ -31,7 +32,7 @@ def summarise_news(headline, full_text):
 
     # Prepare the prompt
     prompt = f"""
-    You are an advanced financial text summarization AI. Your task is to generate a concise upto 3-line summary of the important financial content from a given article. Only include key points about the article’s financial context, metrics, or events. Return only the summary—no markdown, no explanations, preamble, or additional text. Follow the format of the examples below.
+    You are an advanced financial text summarization AI. Your task is to generate a concise upto 3-line summary of the important financial content from a given article. Only include key points about the article’s financial context, metrics, or events. Return only the summary—no markdown, no explanations, preamble, or additional text. Follow the format of the examples below. Never include any personal opinions or editorial comments. 
 
     Examples:
 
@@ -120,6 +121,56 @@ def get_events():
     
     # Return JSON response
     return jsonify(data), 200
+
+
+def get_stock_data(ticker):
+    try:
+        stock = yf.Ticker(ticker)
+        info = stock.info
+
+        current_price = info.get("currentPrice", "N/A")
+        market_cap = info.get("marketCap", "N/A")
+        year_range = f"{info.get('fiftyTwoWeekLow', 'N/A')} - {info.get('fiftyTwoWeekHigh', 'N/A')}"
+        volume = info.get("volume", "N/A")
+
+        return {
+            "Current Price": current_price,
+            "Market Cap": market_cap,
+            "52 Week Range": year_range,
+            "Volume": volume
+        }
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.route('/api/get_stock_data', methods=['GET'])
+def get_stock_data_route():
+    ticker = request.args.get('ticker')
+    if not ticker:
+        return jsonify({"error": "Ticker parameter is required"}), 400
+
+    # Get stock data
+    stock_data = get_stock_data(ticker)
+
+    # Fetch related news articles
+    related_news = []
+    with open('analysis.csv', 'r') as file:
+        csv_reader = csv.DictReader(file)
+        for row in csv_reader:
+            tickers = row['tickers'].split(',')
+            if ticker in tickers:
+                price_changes = [float(s) for s in row['percentpricechanges'].split(',')]
+                index = tickers.index(ticker)
+                related_news.append({
+                    "headline": row['headline'],
+                    "summary": summarise_news(row['headline'], row['text']),
+                    "price_change": price_changes[index]
+                })
+
+    return jsonify({
+        "stock_data": stock_data,
+        "related_news": related_news
+    })
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
