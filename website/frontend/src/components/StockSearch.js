@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
-import './StockPage.css';
+import './StockSearch.css';
 
 export default function StockSearch() {
     const [query, setQuery] = useState('');
