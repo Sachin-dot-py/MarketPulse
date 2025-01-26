@@ -5,6 +5,7 @@ import os
 import csv
 from datetime import datetime, timedelta
 from functools import cache
+import pandas as pd
 
 # Persistent storage file for visited links
 VISITED_LINKS_FILE = "visited_links.csv"
@@ -24,11 +25,23 @@ def save_visited_link(link):
 
 # Analyze the article (placeholder for actual implementation)
 def analyze_article(title, text, publish_date, url, source_brand):
-    # Replace with your actual analysis logic
-    print(f"\nAnalyzing article from {source_brand}: {title}")
-    print(f"URL: {url}")
-    print(f"Published on: {publish_date}")
-    print(f"Content: {text[:500]}...")  # Print first 500 characters for brevity
+    # If CSV file is empty, add headers
+    if os.stat('news.csv').st_size == 0:
+        with open('news.csv', 'a') as f:
+            writer = csv.writer(f)
+            writer.writerow(["title", "text", "publish_date", "url", "source_brand"])
+    
+    # Save to CSV dataframe
+    with open('news.csv', 'a') as f:
+        writer = csv.writer(f)
+        writer.writerow([title, text, publish_date, url, source_brand])
+    
+    # When we have 20 articles, call the run_model function
+    df = pd.read_csv('news.csv')
+    if len(df) >= 20:
+        # run_model()
+        # Clear the file
+        open('news.csv', 'w').close()
 
 # Process articles from a given source
 def process_articles(source, visited_links):
