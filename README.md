@@ -2,7 +2,7 @@
 
 MarketPulse is a real-time market sentiment and trend analysis web app designed for investors and traders. It aggregates news data (by web scraping) and uses market volume fluctuations. It conducts sentiment analysis on financial news data to provide actionable insights and identify market opportunities. 
 
-# Installation and setup
+# Installation and Setup
 
 - Install `Node.js` and `npm`
 - Install Python 3
