@@ -16,7 +16,7 @@ export default function Home() {
                 <section className="text-center mb-12">
                     <StockSearch />
                 </section>
-
+                <br /><br />
                 <section>
                     <h2 className="text-2xl font-semibold mb-6 text-gray-700 text-center">News Summary</h2>
 
