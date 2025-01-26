@@ -110,7 +110,8 @@ def get_events():
 
     
     # Generate summaries and price change mappings
-    df['summary'] = df.apply(lambda row: summarise_news(row['headline'], row['text']), axis=1)
+    # df['summary'] = df.apply(lambda row: summarise_news(row['headline'], row['text']), axis=1)
+    df['summary'] = df['text']
     df['pricechanges'] = df.apply(lambda row: dict(zip(row['tickers'], row['percentpricechanges'])), axis=1)
 
     # Select required columns for the final output
